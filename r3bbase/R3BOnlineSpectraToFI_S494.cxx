@@ -644,8 +644,9 @@ void R3BOnlineSpectraToFI_S494::Exec(Option_t* option)
                 //      cout<<"Time: "<<top_ns<<"; "<<bot_ns<<endl;
                 Int_t iPlane = bot->GetDetectorId(); // 1..n
                 Int_t iBar = bot->GetBarId();        // 1..n
-                // auto bot_tot = fmod(bot->GetTimeTrailing_ns() - bot->GetTimeLeading_ns() + c_range_ns, c_range_ns);
-                auto bot_tot = bot->GetTimeTrailing_ns() - bot->GetTimeLeading_ns();
+
+                auto bot_tot = fmod(bot->GetTimeTrailing_ns() - bot->GetTimeLeading_ns() + c_range_ns, c_range_ns);
+                // auto bot_tot = bot->GetTimeTrailing_ns() - bot->GetTimeLeading_ns();
 
                 fh_tofi_TotPm[iPlane - 1]->Fill(-iBar - 1, bot_tot);
                 fh_tofi_timePm[iPlane - 1]->Fill(-iBar - 1, bot_ns);
@@ -684,8 +685,8 @@ void R3BOnlineSpectraToFI_S494::Exec(Option_t* option)
                 auto topc_trig_i = g_tofi_trig_map[topc->GetSideId() - 1][topc->GetBarId() - 1];
                 auto botc_trig_i = g_tofi_trig_map[botc->GetSideId() - 1][botc->GetBarId() - 1];
                 Double_t topc_trig_ns = 0, botc_trig_ns = 0;
-                if (topc_trig_i < trig_map.size() && trig_map.at(topc_trig_i) && botc_trig_i < trig_map.size() &&
-                    trig_map.at(botc_trig_i))
+                if (topc_trig_i < trig_map.size() && trig_map.at(topc_trig_i) &&
+		    botc_trig_i < trig_map.size() && trig_map.at(botc_trig_i))
                 {
                     auto topc_trig = trig_map.at(topc_trig_i);
                     auto botc_trig = trig_map.at(botc_trig_i);
